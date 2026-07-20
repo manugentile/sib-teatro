@@ -1,7 +1,8 @@
 import { defineCollection, z } from "astro:content";
+import { glob } from "astro/loaders";
 
 const posts = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/posts" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -13,7 +14,7 @@ const posts = defineCollection({
 });
 
 const chi_siamo = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/chi_siamo" }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -24,37 +25,37 @@ const chi_siamo = defineCollection({
 });
 
 const shows = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/shows" }),
   schema: z.object({
     title: z.string(),
     category: z.string().optional(),
-    posterImage: z.string(),
+    posterImage: z.string().optional(), // Reso optional per evitare blocchi se manca in un file
     order: z.number().optional(),
   }),
 });
 
 const people = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/people" }),
   schema: z.object({
     name: z.string(),
-    image: z.string(),
+    image: z.string().optional(), // Reso optional
     order: z.number().optional(),
   }),
 });
 
 const events = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/*.{md,mdx}", base: "./src/content/events" }),
   schema: z.object({
     title: z.string(),
-    venue: z.string(),
-    date: z.union([z.string(), z.date()]),
-    time: z.string(),
+    venue: z.string().optional(),
+    date: z.union([z.string(), z.date()]).optional(),
+    time: z.string().optional(),
     order: z.number().optional(),
   }),
 });
 
 const navigation = defineCollection({
-  type: "data",
+  loader: glob({ pattern: "**/*.json", base: "./src/content/navigation" }),
   schema: z.object({
     items: z
       .array(

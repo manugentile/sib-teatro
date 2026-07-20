@@ -1,21 +1,21 @@
-// .tina/config.ts
 import { defineStaticConfig } from "tinacms";
-var branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
-var config_default = defineStaticConfig({
+
+// Your hosting provider likely exposes this as an environment variable
+const branch = process.env.HEAD || process.env.VERCEL_GIT_COMMIT_REF || "main";
+
+export default defineStaticConfig({
   branch,
-  clientId: null,
-  // Get this from tina.io
-  token: null,
-  // Get this from tina.io
+  clientId: null, // Get this from tina.io
+  token: null, // Get this from tina.io
   build: {
     outputFolder: "admin",
-    publicFolder: "public"
+    publicFolder: "public",
   },
   media: {
     tina: {
       mediaRoot: "uploads",
-      publicFolder: "public"
-    }
+      publicFolder: "public",
+    },
   },
   schema: {
     collections: [
@@ -27,12 +27,18 @@ var config_default = defineStaticConfig({
         ui: {
           // Questa funzione definisce come viene generato il nome del file
           filename: {
-            readonly: false,
-            // Permette all'utente di modificare il nome file se necessario
+            readonly: false, // Permette all'utente di modificare il nome file se necessario
             slugify: (values) => {
-              return values?.title?.toLowerCase().replace(/['’]/g, "").replace(/\s+/g, "-").replace(/[^\w-]+/g, "") || "nuovo-post";
-            }
-          }
+              // Prende il valore del campo 'title' e lo trasforma in slug
+              return (
+                values?.title
+                  ?.toLowerCase()
+                  .replace(/['’]/g, "")
+                  .replace(/\s+/g, "-")
+                  .replace(/[^\w-]+/g, "") || "nuovo-post"
+              );
+            },
+          },
         },
         fields: [
           {
@@ -40,36 +46,36 @@ var config_default = defineStaticConfig({
             name: "title",
             label: "Titolo",
             isTitle: true,
-            required: true
+            required: true,
           },
           {
             type: "string",
             name: "description",
             label: "Sottotitolo / Intro",
-            ui: { component: "textarea" }
+            ui: { component: "textarea" },
           },
           {
             type: "image",
             name: "heroImage",
-            label: "Immagine di Copertina (Grande)"
+            label: "Immagine di Copertina (Grande)",
           },
           { type: "image", name: "sideImage", label: "Logo o Icona Laterale" },
           {
             type: "string",
             name: "category",
             label: "Categoria",
-            options: ["Teatro", "Eventi", "Dietro le Quinte"]
+            options: ["Teatro", "Eventi", "Dietro le Quinte"],
           },
           {
             type: "datetime",
             name: "pubDate",
             label: "Data di Pubblicazione",
-            ui: { dateFormat: "DD MMMM YYYY" }
+            ui: { dateFormat: "DD MMMM YYYY" },
           },
           {
             type: "number",
             name: "order",
-            label: "Ordine"
+            label: "Ordine",
           },
           {
             type: "rich-text",
@@ -82,12 +88,12 @@ var config_default = defineStaticConfig({
                 label: "Citazione Stilizzata",
                 fields: [
                   { name: "content", label: "Testo", type: "string" },
-                  { name: "author", label: "Autore", type: "string" }
-                ]
-              }
-            ]
-          }
-        ]
+                  { name: "author", label: "Autore", type: "string" },
+                ],
+              },
+            ],
+          },
+        ],
       },
       {
         name: "chi_siamo",
@@ -100,41 +106,41 @@ var config_default = defineStaticConfig({
             name: "title",
             label: "Titolo",
             isTitle: true,
-            required: true
+            required: true,
           },
           {
             type: "string",
             name: "description",
-            label: "Descrizione breve"
+            label: "Descrizione breve",
           },
           {
             type: "datetime",
             name: "pubDate",
             label: "Publish Date",
             ui: {
-              dateFormat: "DD MMMM YYYY"
-            }
+              dateFormat: "DD MMMM YYYY",
+            },
           },
           {
             type: "rich-text",
             name: "content",
             label: "Contenuto principale",
-            isBody: true
+            isBody: true,
           },
           {
             type: "image",
             name: "sideImage",
-            label: "Immagine laterale (logo)"
+            label: "Immagine laterale (logo)",
           },
           {
             type: "image",
             name: "mainImage",
-            label: "Immagine principale (gruppo)"
-          }
-        ]
+            label: "Immagine principale (gruppo)",
+          },
+        ],
       },
       {
-        name: "show",
+        name: "shows",
         label: "Spettacoli",
         path: "src/content/shows",
         format: "mdx",
@@ -144,33 +150,33 @@ var config_default = defineStaticConfig({
             name: "title",
             label: "Titolo",
             isTitle: true,
-            required: true
+            required: true,
           },
           {
             type: "string",
             name: "category",
-            label: "Categoria"
+            label: "Categoria",
           },
           {
             type: "image",
             name: "posterImage",
-            label: "Locandina"
+            label: "Locandina",
           },
           {
             type: "number",
             name: "order",
-            label: "Ordine"
+            label: "Ordine",
           },
           {
             type: "rich-text",
             name: "body",
             label: "Descrizione",
-            isBody: true
-          }
-        ]
+            isBody: true,
+          },
+        ],
       },
       {
-        name: "person",
+        name: "people",
         label: "Persone",
         path: "src/content/people",
         format: "mdx",
@@ -180,28 +186,28 @@ var config_default = defineStaticConfig({
             name: "name",
             label: "Nome",
             isTitle: true,
-            required: true
+            required: true,
           },
           {
             type: "image",
             name: "image",
-            label: "Foto"
+            label: "Foto",
           },
           {
             type: "number",
             name: "order",
-            label: "Ordine"
+            label: "Ordine",
           },
           {
             type: "rich-text",
             name: "bio",
             label: "Bio",
-            isBody: true
-          }
-        ]
+            isBody: true,
+          },
+        ],
       },
       {
-        name: "event",
+        name: "events",
         label: "Eventi",
         path: "src/content/events",
         format: "mdx",
@@ -211,38 +217,38 @@ var config_default = defineStaticConfig({
             name: "title",
             label: "Titolo",
             isTitle: true,
-            required: true
+            required: true,
           },
           {
             type: "string",
             name: "venue",
-            label: "Luogo"
+            label: "Luogo",
           },
           {
             type: "datetime",
             name: "date",
             label: "Data",
             ui: {
-              dateFormat: "DD MMMM YYYY HH:mm"
-            }
+              dateFormat: "DD MMMM YYYY HH:mm",
+            },
           },
           {
             type: "string",
             name: "time",
-            label: "Orario (testo)"
+            label: "Orario (testo)",
           },
           {
             type: "number",
             name: "order",
-            label: "Ordine"
+            label: "Ordine",
           },
           {
             type: "rich-text",
             name: "notes",
             label: "Note",
-            isBody: true
-          }
-        ]
+            isBody: true,
+          },
+        ],
       },
       {
         name: "navigation",
@@ -252,8 +258,8 @@ var config_default = defineStaticConfig({
         ui: {
           allowedActions: {
             create: false,
-            delete: false
-          }
+            delete: false,
+          },
         },
         fields: [
           {
@@ -266,45 +272,44 @@ var config_default = defineStaticConfig({
                 type: "string",
                 name: "id",
                 label: "ID",
-                required: true
+                required: true,
               },
               {
                 type: "string",
                 name: "label",
                 label: "Etichetta",
-                required: true
+                required: true,
               },
               {
                 type: "string",
                 name: "href",
                 label: "Link",
                 required: true,
-                description: "Usa '#sezione' per ancore homepage oppure '/percorso' per pagine."
+                description:
+                  "Usa '#sezione' per ancore homepage oppure '/percorso' per pagine.",
               },
               {
                 type: "string",
                 name: "parentId",
                 label: "Parent ID",
-                description: "Se impostato, questa voce diventa figlia dell'elemento con ID corrispondente."
+                description:
+                  "Se impostato, questa voce diventa figlia dell'elemento con ID corrispondente.",
               },
               {
                 type: "number",
                 name: "order",
                 label: "Ordine",
-                description: "Ordina i fratelli (crescente)."
+                description: "Ordina i fratelli (crescente).",
               },
               {
                 type: "boolean",
                 name: "external",
-                label: "Link esterno"
-              }
-            ]
-          }
-        ]
+                label: "Link esterno",
+              },
+            ],
+          },
+        ],
       }
-    ]
-  }
+    ],
+  },
 });
-export {
-  config_default as default
-};
