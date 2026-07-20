@@ -7,7 +7,7 @@ const postEntries = await getCollection("posts");
 
 const postItems = postEntries
   .map((entry) => {
-    const slug = entry.slug.split("/").pop() ?? entry.slug;
+    const slug = entry.id.split("/").pop() ?? entry.id;
     return {
       slug,
       title: entry.data.title ?? slug,

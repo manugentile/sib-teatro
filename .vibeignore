@@ -1,0 +1,8 @@
+# .vibeignore - File e cartelle da ignorare per risparmiare token
+node_modules/
+.astro/
+.tina/__generated__/
+dist/
+build/
+package-lock.json
+*.log

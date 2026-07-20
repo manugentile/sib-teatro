@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 
 export async function getStaticPaths() {
@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 
   const seenBySlug = new Map<string, string>();
   for (const entry of entries) {
-    const slug = entry.slug.split("/").pop() ?? entry.slug;
+    const slug = entry.id.split("/").pop() ?? entry.id;
     const id = entry.id;
 
     if (!slug) continue;
@@ -16,7 +16,7 @@ export async function getStaticPaths() {
     if (existing && existing !== id) {
       throw new Error(
         `Duplicate post slug "${slug}" found. Entries: ${existing} and ${id}. ` +
-          `If you want nested URLs, use the full collection slug (e.g. /posts/${entry.slug}); otherwise ensure filenames are unique across subfolders.`,
+          `If you want nested URLs, use the full collection slug (e.g. /posts/${entry.id}); otherwise ensure filenames are unique across subfolders.`,
       );
     }
     seenBySlug.set(slug, id);
@@ -24,14 +24,14 @@ export async function getStaticPaths() {
 
   return entries.map((entry) => ({
     params: {
-      slug: entry.slug.split("/").pop() ?? entry.slug,
+      slug: entry.id.split("/").pop() ?? entry.id,
     },
     props: { entry },
   }));
 }
 
 const { entry } = Astro.props as { entry: CollectionEntry<"posts"> };
-const { Content } = await entry.render();
+const { Content } = await render(entry);
 const frontmatter = entry.data;
 
 const title =
