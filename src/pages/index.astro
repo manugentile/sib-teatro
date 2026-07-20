@@ -1,0 +1,64 @@
+---
+import { getCollection } from "astro:content";
+import HomeCompany from "../components/home/HomeCompany.astro";
+import HomeContacts from "../components/home/HomeContacts.astro";
+import HomeHero from "../components/home/HomeHero.astro";
+import HomeShows from "../components/home/HomeShows.astro";
+import HomeStory from "../components/home/HomeStory.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const showsEntries = (await getCollection("shows")).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
+
+const peopleEntries = (await getCollection("people")).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
+
+const eventEntries = (await getCollection("events")).sort(
+  (a, b) => (a.data.order ?? 0) - (b.data.order ?? 0),
+);
+
+const shows = showsEntries.map((entry) => ({
+  title: entry.data.title,
+  category: entry.data.category,
+  posterImage: entry.data.posterImage,
+}));
+
+const people = peopleEntries.map((entry) => ({
+  name: entry.data.name,
+  image: entry.data.image,
+}));
+
+const events = eventEntries.map((entry) => {
+  const date = new Date(entry.data.date ?? 0);
+  const month = date
+    .toLocaleDateString("it-IT", { month: "short" })
+    .replace(".", "");
+  const monthCapitalized = month.charAt(0).toUpperCase() + month.slice(1);
+  const day = date.toLocaleDateString("it-IT", { day: "2-digit" });
+
+  return {
+    month: monthCapitalized,
+    day,
+    title: entry.data.title,
+    venue: entry.data.venue,
+    time: entry.data.time,
+  };
+});
+---
+
+<SiteLayout
+  title={SITE_TITLE}
+  description={SITE_DESCRIPTION}
+  bodyClass="component-preview preview bg-white text-slate-900"
+>
+  <HomeHero
+    backgroundImageSrc="/468945280_575063248507133_6653228044751135121_n.jpg?q=80&w=2069&auto=format&fit=crop"
+  />
+  <HomeStory />
+  <HomeShows shows={shows} />
+  <HomeCompany people={people} />
+  <HomeContacts events={events} />
+</SiteLayout>

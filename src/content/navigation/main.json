@@ -1,0 +1,86 @@
+{
+  "items": [
+    {
+      "id": "chi-siamo",
+      "label": "Chi Siamo",
+      "href": "#chi-siamo",
+      "order": 10
+    },
+    {
+      "id": "spettacoli",
+      "label": "Spettacoli",
+      "href": "#spettacoli",
+      "order": 20
+    },
+    {
+      "id": "compagnia",
+      "label": "Compagnia",
+      "href": "/posts/la-compagnia",
+      "order": 30
+    },
+    {
+      "id": "contatti",
+      "label": "Contatti",
+      "href": "#contatti",
+      "order": 40
+    },
+    {
+      "id": "blog",
+      "label": "Blog",
+      "href": "/posts",
+      "order": 50
+    },
+    {
+      "id": "social",
+      "label": "Social",
+      "href": "#",
+      "order": 70
+    },
+    {
+      "id": "instagram",
+      "label": "Instagram",
+      "href": "https://instagram.com/",
+      "parentId": "social",
+      "order": 10,
+      "external": true
+    },
+    {
+      "id": "facebook",
+      "label": "Facebook",
+      "href": "https://facebook.com/",
+      "parentId": "social",
+      "order": 20,
+      "external": true
+    },
+    {
+      "id": "federica-martoglio",
+      "label": "Federica Martoglio",
+      "href": "/posts/federica-martoglio",
+      "parentId": "compagnia"
+    },
+    {
+      "id": "luca-casale",
+      "label": "Luca Casale",
+      "href": "/posts/luca-casale",
+      "parentId": "compagnia"
+    },
+    {
+      "id": "luca-ramasso",
+      "label": "Luca Ramasso",
+      "href": "/posts/luca-ramasso",
+      "parentId": "compagnia"
+    },
+    {
+      "id": "manuel-gentile",
+      "label": "Manuel Gentile",
+      "href": "/posts/manuel-gentile",
+      "parentId": "compagnia"
+    },
+    {
+      "id": "oscar-tuzza",
+      "label": "Oscar Tuzza",
+      "href": "/posts/oscar-tuzza",
+      "parentId": "compagnia"
+    }
+  ]
+}

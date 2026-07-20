@@ -1,0 +1,92 @@
+---
+import { getCollection } from "astro:content";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../config";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const postEntries = await getCollection("posts");
+
+const postItems = postEntries
+  .map((entry) => {
+    const slug = entry.slug.split("/").pop() ?? entry.slug;
+    return {
+      slug,
+      title: entry.data.title ?? slug,
+      description: entry.data.description,
+      heroImage: entry.data.heroImage,
+      category: entry.data.category,
+      pubDate: entry.data.pubDate,
+    };
+  })
+  .sort(
+    (a, b) =>
+      new Date(b.pubDate ?? 0).valueOf() - new Date(a.pubDate ?? 0).valueOf(),
+  );
+---
+
+<SiteLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section class="px-6 lg:px-20 py-10">
+    <header class="mb-10">
+      <h1 class="text-4xl md:text-5xl font-serif italic">Blog</h1>
+      <p class="text-slate-500 mt-2 max-w-2xl">
+        Articoli, aggiornamenti e racconti dal mondo Salti In Bocca.
+      </p>
+    </header>
+
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {
+        postItems.map((post) => (
+          <li class="card bg-base-100 border border-slate-100 overflow-hidden">
+            {post.heroImage && (
+              <figure class="aspect-video">
+                <img
+                  src={post.heroImage}
+                  alt=""
+                  class="w-full h-full object-cover"
+                  loading="lazy"
+                />
+              </figure>
+            )}
+
+            <div class="card-body">
+              <div class="flex items-center gap-3">
+                {post.category && (
+                  <span class="badge badge-primary badge-sm text-white uppercase tracking-widest text-[10px]">
+                    {post.category}
+                  </span>
+                )}
+                {post.pubDate && (
+                  <time class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                    {new Date(post.pubDate).toLocaleDateString("it-IT", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })}
+                  </time>
+                )}
+              </div>
+
+              <h2 class="card-title font-serif italic text-2xl">
+                <a
+                  class="hover:text-primary transition-colors"
+                  href={`/posts/${post.slug}`}
+                >
+                  {post.title}
+                </a>
+              </h2>
+
+              {post.description && (
+                <p class="text-slate-500 leading-relaxed">{post.description}</p>
+              )}
+
+              <div class="card-actions justify-end">
+                <a class="btn btn-ghost" href={`/posts/${post.slug}`}>
+                  Leggi
+                </a>
+              </div>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</SiteLayout>

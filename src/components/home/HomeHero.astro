@@ -1,0 +1,37 @@
+---
+export interface Props {
+  backgroundImageSrc: string;
+}
+
+const { backgroundImageSrc } = Astro.props;
+---
+
+<section
+  id="home"
+  class="relative h-[60vh] flex items-center justify-center overflow-hidden bg-black mx-4 lg:mx-8 rounded-b-[2rem]"
+>
+  <img
+    src={backgroundImageSrc}
+    class="absolute inset-0 w-full h-full object-cover opacity-40"
+    alt="Teatro Background"
+  />
+  <div class="relative z-10 text-center text-white px-6">
+    <div class="flex justify-center items-center gap-2 mb-4">
+      <span class="w-2 h-2 bg-primary rounded-full"></span>
+      <span class="text-xs uppercase tracking-[0.2em] font-medium"
+        >La nostra storia</span
+      >
+    </div>
+    <h1 class="text-5xl md:text-7xl font-medium mb-6">
+      <span class="italic font-light opacity-90">Salti In Bocca Teatro</span>
+    </h1>
+    <p
+      class="max-w-2xl mx-auto text-lg md:text-xl italic font-light opacity-80 mb-10 leading-relaxed"
+    >
+      "Vi è sempre un sipario che apre, laddove umanità e poesia si incontrano."
+    </p>
+    <button class="btn btn-primary px-8 text-white rounded-full">
+      <a href="/posts/la-compagnia">Scopri di più</a>
+    </button>
+  </div>
+</section>

@@ -1,0 +1,22 @@
+---
+export interface Props {
+  name: string;
+  imageSrc: string;
+  imageAlt?: string;
+}
+
+const { name, imageSrc, imageAlt } = Astro.props;
+---
+
+<div class="group cursor-pointer flex flex-col items-center">
+  <div class="avatar mb-4">
+    <div
+      class="w-24 rounded-full border-4 border-transparent group-hover:border-primary transition-all"
+    >
+      <a href={`/posts/${name.toLowerCase().replace(/\s+/g, "-")}`}>
+        <img src={imageSrc} alt={imageAlt ?? name} class="object-cover" />
+      </a>
+    </div>
+  </div>
+  <p class="font-medium text-sm uppercase tracking-wider">{name}</p>
+</div>

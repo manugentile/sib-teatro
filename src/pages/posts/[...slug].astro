@@ -1,0 +1,158 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+export async function getStaticPaths() {
+  const entries = await getCollection("posts");
+
+  const seenBySlug = new Map<string, string>();
+  for (const entry of entries) {
+    const slug = entry.slug.split("/").pop() ?? entry.slug;
+    const id = entry.id;
+
+    if (!slug) continue;
+    const existing = seenBySlug.get(slug);
+    if (existing && existing !== id) {
+      throw new Error(
+        `Duplicate post slug "${slug}" found. Entries: ${existing} and ${id}. ` +
+          `If you want nested URLs, use the full collection slug (e.g. /posts/${entry.slug}); otherwise ensure filenames are unique across subfolders.`,
+      );
+    }
+    seenBySlug.set(slug, id);
+  }
+
+  return entries.map((entry) => ({
+    params: {
+      slug: entry.slug.split("/").pop() ?? entry.slug,
+    },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props as { entry: CollectionEntry<"posts"> };
+const { Content } = await entry.render();
+const frontmatter = entry.data;
+
+const title =
+  typeof frontmatter?.title === "string" && frontmatter.title.length
+    ? frontmatter.title
+    : "Post";
+
+const description =
+  typeof frontmatter?.description === "string" && frontmatter.description.length
+    ? frontmatter.description
+    : undefined;
+
+const heroImage =
+  typeof frontmatter?.heroImage === "string" && frontmatter.heroImage.length
+    ? frontmatter.heroImage
+    : undefined;
+
+const sideImage =
+  typeof frontmatter?.sideImage === "string" && frontmatter.sideImage.length
+    ? frontmatter.sideImage
+    : undefined;
+
+const category =
+  typeof frontmatter?.category === "string" && frontmatter.category.length
+    ? frontmatter.category
+    : undefined;
+
+const pubDate =
+  typeof frontmatter?.pubDate === "string" && frontmatter.pubDate.length
+    ? frontmatter.pubDate
+    : undefined;
+
+const formattedDate = pubDate
+  ? new Date(pubDate).toLocaleDateString("it-IT", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
+  : null;
+
+const contentWrapperClass = heroImage
+  ? "max-w-4xl mx-auto px-6 -mt-24 relative z-10"
+  : "max-w-4xl mx-auto px-6 pt-10 relative z-10";
+---
+
+<SiteLayout title={title} description={description ?? title} image={heroImage}>
+  <article class="bg-white min-h-screen pb-20">
+    {
+      heroImage && (
+        <header class="relative w-full h-[50vh] overflow-hidden">
+          <img src={heroImage} alt={title} class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-linear-to-t from-white via-transparent to-transparent" />
+        </header>
+      )
+    }
+
+    <div class={contentWrapperClass}>
+      <div
+        class="bg-white p-8 md:p-16 rounded-[3rem] shadow-sm border border-slate-50"
+      >
+        <div class="flex flex-col md:flex-row gap-8 items-start mb-12">
+          {
+            sideImage && (
+              <div class="w-20 h-20 shrink-0 bg-slate-50 rounded-2xl p-4 border border-slate-100 rotate-3">
+                <img
+                  src={sideImage}
+                  alt=""
+                  class="w-full h-full object-contain"
+                />
+              </div>
+            )
+          }
+
+          <div class="flex-1">
+            {
+              (category || formattedDate) && (
+                <div class="flex items-center gap-3 mb-4">
+                  {category && (
+                    <span class="badge badge-primary badge-sm text-white uppercase tracking-widest text-[10px]">
+                      {category}
+                    </span>
+                  )}
+                  {formattedDate && (
+                    <time class="text-xs font-bold uppercase tracking-widest text-slate-400">
+                      {formattedDate}
+                    </time>
+                  )}
+                </div>
+              )
+            }
+
+            <h1
+              class="text-4xl md:text-6xl font-serif italic mb-6 leading-tight"
+            >
+              {title}
+            </h1>
+
+            {
+              description && (
+                <p class="text-xl text-slate-500 font-light italic leading-relaxed">
+                  {description}
+                </p>
+              )
+            }
+          </div>
+        </div>
+
+        <hr class="border-slate-100 mb-12" />
+
+        <div class="max-w-none">
+          <article
+            class="prose prose-slate lg:prose-xl
+                  prose-headings:font-serif prose-headings:italic
+                  prose-p:leading-relaxed prose-p:text-muted
+                  prose-a:text-primary hover:prose-a:text-secondary
+                  prose-img:rounded-3xl prose-img:shadow-lg"
+          >
+            <Content />
+          </article>
+        </div>
+      </div>
+    </div>
+  </article>
+</SiteLayout>

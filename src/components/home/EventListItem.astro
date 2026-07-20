@@ -1,0 +1,31 @@
+---
+export interface Props {
+  month: string;
+  day: string;
+  title: string;
+  venue: string;
+  time: string;
+}
+
+const { month, day, title, venue, time } = Astro.props;
+---
+
+<div class="flex gap-4 group cursor-pointer">
+  <div
+    class="flex flex-col items-center justify-center bg-white border border-slate-200 rounded-xl w-14 h-14 shadow-sm group-hover:border-primary transition-colors"
+  >
+    <span class="text-[10px] uppercase font-bold text-slate-400 leading-none">
+      {month}
+    </span>
+    <span class="text-xl font-bold text-primary">{day}</span>
+  </div>
+  <div class="flex-1">
+    <h4
+      class="font-bold text-sm uppercase tracking-tight group-hover:text-primary transition-colors"
+    >
+      {title}
+    </h4>
+    <p class="text-xs text-slate-500">{venue}</p>
+    <p class="text-[10px] font-medium text-slate-400 mt-1 italic">{time}</p>
+  </div>
+</div>

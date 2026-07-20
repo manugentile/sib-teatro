@@ -1,0 +1,81 @@
+---
+import AutoCarousel from "./AutoCarousel.astro";
+import ShowCard from "./ShowCard.astro";
+
+export interface Show {
+  title: string;
+  category?: string;
+  posterImage: string;
+}
+
+export interface Props {
+  shows: Show[];
+}
+
+const { shows } = Astro.props;
+const primaryShows = shows.slice(0, 3);
+const secondaryShows = shows.slice(3, 6);
+
+const carouselImages = [
+  { src: "/480660244_619319607512365_4842754180208106170_n.jpg", alt: "" },
+  { src: "/480994740_619319664179026_2043622167329565557_n.jpg", alt: "" },
+  { src: "/481459798_619319727512353_3563656371349548096_n.jpg", alt: "" },
+  { src: "/610635641_18036031634757036_5244837104045441358_n.jpg", alt: "" },
+  { src: "/610672846_18036031742757036_6648602870728500724_n.jpg", alt: "" },
+  { src: "/611002450_18036031673757036_3948366356609559092_n.jpg", alt: "" },
+];
+---
+
+<section id="spettacoli" class="pb-24 px-4 lg:px-12">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+    <div class="lg:col-span-4 space-y-8">
+      <div>
+        <h3 class="text-2xl font-bold mb-4">Nuova Stagione</h3>
+        <p class="text-slate-500 leading-relaxed">
+          Siamo un'Associazione Culturale nata ad aprile 2021 a Sant'Antonino di
+          Susa. Fondata dall'entusiasmo ventennale della Direzione di Federica
+          Martoglio e Luca Casale.
+        </p>
+      </div>
+
+      <AutoCarousel images={carouselImages} />
+    </div>
+
+    <div class="lg:col-span-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {
+          primaryShows.map((show) => (
+            <ShowCard
+              title={show.title}
+              category={show.category}
+              imageSrc={show.posterImage}
+            />
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="lg:col-span-4 flex flex-col justify-center space-y-8">
+      <blockquote
+        class="italic text-slate-800 border-l-2 border-primary pl-6 py-2"
+      >
+        "Vi è sempre un sipario che si apre, laddove l'energia
+        dell'interpretazione incontra lo sguardo dell'ospite."
+      </blockquote>
+    </div>
+
+    <div class="lg:col-span-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+        {
+          secondaryShows.map((show) => (
+            <ShowCard
+              title={show.title}
+              category={show.category}
+              imageSrc={show.posterImage}
+            />
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

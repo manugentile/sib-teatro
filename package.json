@@ -1,0 +1,37 @@
+{
+  "name": "astro-tina-starter",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "tina": "tinacms dev -c \"astro dev\""
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/ts-plugin": "^1.10.6",
+    "@astrojs/vue": "^5.1.4",
+    "@fullcalendar/core": "^6.1.20",
+    "@fullcalendar/daygrid": "^6.1.20",
+    "@fullcalendar/google-calendar": "^6.1.20",
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.17.2",
+    "daisyui": "^5.5.18",
+    "tailwindcss": "^4.1.18",
+    "tinacms": "^2.8.3",
+    "typescript": "^5.9.3",
+    "vue": "^3.5.22"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@tailwindcss/typography": "^0.5.19",
+    "@tinacms/cli": "^1.10.3",
+    "@types/node": "^24.5.2"
+  }
+}

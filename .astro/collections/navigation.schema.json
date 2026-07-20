@@ -1,0 +1,48 @@
+{
+  "$ref": "#/definitions/navigation",
+  "definitions": {
+    "navigation": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "href": {
+                "type": "string"
+              },
+              "parentId": {
+                "type": "string"
+              },
+              "order": {
+                "type": "number"
+              },
+              "external": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "id",
+              "label",
+              "href"
+            ],
+            "additionalProperties": false
+          },
+          "default": []
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

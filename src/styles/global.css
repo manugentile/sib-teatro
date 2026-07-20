@@ -1,0 +1,44 @@
+@import "tailwindcss";
+@plugin "daisyui";
+/* Importiamo il plugin typography per Tailwind v4 */
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Definiamo i font e i colori nel nuovo sistema @theme */
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  
+  --color-primary: oklch(65% 0.2 25);
+  --color-primary-content: oklch(100% 0 0);
+}
+
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: oklch(65% 0.2 25);
+  --rounded-btn: 1.9rem;
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    @apply text-slate-900;
+  }
+
+  h1, h2, h3, .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+/* Personalizzazione di .prose per usare il tuo font Serif nei titoli */
+.prose :where(h1, h2, h3, h4, blockquote):not(:where([class~="not-prose"] *)) {
+  font-family: var(--font-serif);
+  font-style: italic;
+}

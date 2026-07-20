@@ -1,0 +1,57 @@
+---
+// Ricevi l'ID del calendario da TinaCMS come prop
+const { calendarId } = Astro.props;
+---
+
+<div id="calendar-teatro"></div>
+
+<script>
+  import { Calendar } from '@fullcalendar/core';
+  import dayGridPlugin from '@fullcalendar/daygrid';
+  import googleCalendarPlugin from '@fullcalendar/google-calendar';
+  import itLocale from '@fullcalendar/core/locales/it';
+
+  function setupCalendar() {
+    console.log("Tentativo di renderizzazione...");
+    const calendarEl = document.getElementById('calendar-teatro');
+    const apiKey = import.meta.env.PUBLIC_GOOGLE_CALENDAR_API_KEY;
+    if (calendarEl) {
+      console.log("Tentativo di renderizzazione...");
+      const calendar = new Calendar(calendarEl, {
+        plugins: [dayGridPlugin, googleCalendarPlugin],
+        initialView: 'dayGridMonth',
+        googleCalendarApiKey: apiKey, // Astro la inietterà qui
+        // events: '',
+        events: {
+          googleCalendarId: '480b88bec5a877c5fec99e669c5e9e0432f635d6dadcabcf0319ddfe03cd490b@group.calendar.google.com' // Usa l'oggetto, non solo la stringa
+        },
+        locale: itLocale,
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,dayGridWeek'
+        },
+        eventClick: function(info) {
+          info.jsEvent.preventDefault();
+          // Logica per mostrare i dettagli (es. una modale)
+        }
+      });
+      calendar.render();
+    }
+  };
+
+  // Esegue la funzione al caricamento iniziale
+  setupCalendar();
+
+  // Esegue la funzione ogni volta che Astro cambia pagina (se usi View Transitions)
+  document.addEventListener('astro:page-load', setupCalendar);
+</script>
+
+<style>
+  /* Qui puoi rendere il calendario simile a un date-picker moderno */
+  #calendar-teatro {
+    max-width: 900px;
+    margin: 40px auto;
+    font-family: sans-serif;
+  }
+</style>

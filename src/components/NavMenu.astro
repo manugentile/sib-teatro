@@ -1,0 +1,54 @@
+---
+export type NavNode = {
+  id: string;
+  label: string;
+  href: string;
+  external?: boolean;
+  children?: NavNode[];
+};
+
+export interface Props {
+  items: NavNode[];
+  isHome: boolean;
+}
+
+const { items, isHome } = Astro.props;
+
+const normalizeHref = (href: string) => {
+  if (href.startsWith("#")) return isHome ? href : `/${href}`;
+  return href;
+};
+---
+
+{
+  items.map((item) => {
+    const children = item.children ?? [];
+    const href = normalizeHref(item.href);
+    const isExternal = item.external || href.startsWith("http") || href.startsWith("https");
+
+    if (children.length > 0) {
+      return (
+        <li>
+          <details>
+            <summary>{item.label}</summary>
+            <ul class="p-2 bg-base-100 w-40 z-1">
+              <Astro.self items={children} isHome={isHome} />
+            </ul>
+          </details>
+        </li>
+      );
+    }
+
+    return (
+      <li>
+        <a
+          href={href}
+          target={isExternal ? "_blank" : undefined}
+          rel={isExternal ? "noopener noreferrer" : undefined}
+        >
+          {item.label}
+        </a>
+      </li>
+    );
+  })
+}

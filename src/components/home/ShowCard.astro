@@ -1,0 +1,37 @@
+---
+export interface Props {
+  title: string;
+  category?: string;
+  imageSrc: string;
+  imageAlt?: string;
+}
+
+const { title, category, imageSrc, imageAlt } = Astro.props;
+---
+
+<div class="group cursor-pointer">
+  <a
+    href={`/posts/${title
+      .toLowerCase()
+      .replace(/['’]/g, "")
+      .replace(/\s+/g, "-")}`}
+    class="after:relative after:inset-0"
+  >
+  
+    <div class="aspect-[3/4] overflow-hidden rounded-2xl mb-4 bg-slate-100">
+      <img
+        src={imageSrc}
+        class="size-fit object-cover group-hover:scale-105 transition-transform duration-500"
+        alt={imageAlt ?? title}
+      />
+    </div>
+    <h4 class="font-serif text-xl italic mb-1">{title}</h4>
+    {
+      category && (
+        <p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">
+          {category}
+        </p>
+      )
+    }
+  </a>
+</div>

@@ -1,0 +1,80 @@
+---
+export interface Props {
+  id?: string;
+  images: { src: string; alt?: string }[];
+  intervalMs?: number;
+}
+
+const { id = "carousel-autoplay", images, intervalMs = 3000 } = Astro.props;
+---
+
+<div
+  class="aspect-video bg-slate-200 rounded-3xl flex items-center justify-center group cursor-pointer relative overflow-hidden"
+>
+  <div
+    id={id}
+    class="carousel w-full aspect-video rounded-3xl overflow-hidden relative group"
+  >
+    {
+      images.map((img, idx) => (
+        <div
+          id={`${id}-slide-${idx + 1}`}
+          class="carousel-item relative w-full"
+        >
+          <img
+            src={img.src}
+            alt={img.alt ?? ""}
+            class="w-full h-full object-cover"
+          />
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<script define:vars={{ id, intervalMs }}>
+  const setupInfiniteCarousel = () => {
+    const carousel = document.getElementById(id);
+    if (!carousel) return;
+
+    const slides = carousel.querySelectorAll(".carousel-item");
+    const totalSlides = slides.length;
+    let currentIndex = 0;
+    let isTransitioning = false;
+
+    const nextSlide = () => {
+      if (isTransitioning || totalSlides <= 1) return;
+
+      isTransitioning = true;
+      currentIndex++;
+
+      const slideWidth = carousel.clientWidth;
+
+      carousel.style.scrollBehavior = "smooth";
+      carousel.scrollTo({ left: slideWidth * currentIndex });
+
+      if (currentIndex === totalSlides - 1) {
+        setTimeout(() => {
+          carousel.style.scrollBehavior = "auto";
+          carousel.scrollTo({ left: 0 });
+          currentIndex = 0;
+          isTransitioning = false;
+        }, 600);
+      } else {
+        setTimeout(() => {
+          isTransitioning = false;
+        }, 600);
+      }
+    };
+
+    let interval = setInterval(nextSlide, intervalMs);
+    carousel.addEventListener("mouseenter", () => clearInterval(interval));
+    carousel.addEventListener(
+      "mouseleave",
+      () => (interval = setInterval(nextSlide, intervalMs)),
+    );
+  };
+
+  setupInfiniteCarousel();
+  document.addEventListener("astro:after-swap", setupInfiniteCarousel);
+</script>

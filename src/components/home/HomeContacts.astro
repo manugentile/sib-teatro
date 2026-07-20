@@ -1,0 +1,81 @@
+---
+import EventListItem from "./EventListItem.astro";
+
+export interface Event {
+  month: string;
+  day: string;
+  title: string;
+  venue: string;
+  time: string;
+}
+
+export interface Props {
+  events: Event[];
+}
+
+const { events } = Astro.props;
+---
+
+<section id="contatti" class="py-20 bg-slate-50 border-t border-slate-100 px-6">
+  <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+    <div>
+      <h2 class="text-5xl font-serif italic mb-8">
+        Parliamo di <span class="text-primary">Arte</span>.
+      </h2>
+      <div class="space-y-6">
+        <div class="flex items-start gap-4">
+          <div class="text-primary mt-1">●</div>
+          <div>
+            <p class="font-bold text-xs uppercase tracking-widest mb-1">
+              Sede Operativa
+            </p>
+            <p class="text-slate-500">Sant'Antonino di Susa, Torino</p>
+          </div>
+        </div>
+        <div class="flex items-start gap-4">
+          <div class="text-primary mt-1">●</div>
+          <div>
+            <p class="font-bold text-xs uppercase tracking-widest mb-1">
+              Contatti Diretti
+            </p>
+            <p class="text-slate-500">Email / info@saltiinboccateatro.it</p>
+            <p class="text-slate-500">Telefono / +39 3791110628</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="bg-white p-10 rounded-[2.5rem] shadow-sm border border-slate-100"
+    >
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-xl font-serif italic">Prossimi Eventi</h3>
+        <span
+          class="badge badge-primary badge-outline text-[10px] uppercase tracking-widest px-3"
+        >
+          Febbraio 2026
+        </span>
+      </div>
+
+      <div class="space-y-6">
+        {
+          events.map((e) => (
+            <EventListItem
+              month={e.month}
+              day={e.day}
+              title={e.title}
+              venue={e.venue}
+              time={e.time}
+            />
+          ))
+        }
+      </div>
+
+      <button
+        class="btn btn-ghost btn-xs w-full mt-6 text-slate-400 hover:text-primary capitalize underline decoration-dotted"
+      >
+      <a href={`/calendar`}>Vedi calendario completo</a>
+      </button>
+    </div>
+  </div>
+</section>

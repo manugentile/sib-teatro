@@ -1,0 +1,126 @@
+---
+import navigation from "../content/navigation/main.json";
+import NavMenu from "./NavMenu.astro";
+
+type NavItem = {
+  id: string;
+  label: string;
+  href: string;
+  parentId?: string;
+  order?: number;
+  external?: boolean;
+};
+
+const isHome = Astro.url?.pathname === "/";
+
+const rawItems = ((navigation as any)?.items ?? []) as NavItem[];
+
+const compare = (a: NavItem, b: NavItem) => {
+  const ao = a.order ?? 0;
+  const bo = b.order ?? 0;
+  if (ao !== bo) return ao - bo;
+  return a.label.localeCompare(b.label, "it");
+};
+
+const byParent = new Map<string, NavItem[]>();
+for (const item of rawItems) {
+  const key = item.parentId ?? "__root__";
+  const list = byParent.get(key )?? [];
+  list.push(item);
+  byParent.set(key, list);
+}
+
+for (const [, list] of byParent) list.sort(compare);
+
+type NavNode = {
+  id: string;
+  label: string;
+  href: string;
+  external?: boolean;
+  children: NavNode[];
+};
+
+const toNode = (item: NavItem): NavNode => ({
+  id: item.id,
+  label: item.label,
+  href: item.href,
+  external: item.external,
+  children: [],
+});
+
+const nodesById = new Map<string, NavNode>();
+for (const item of rawItems) nodesById.set(item.id, toNode(item));
+
+const topLevel: NavNode[] = [];
+for (const item of rawItems) {
+  const node = nodesById.get(item.id);
+  if (!node) continue;
+
+  if (item.parentId) {
+    const parent = nodesById.get(item.parentId);
+    if (parent) parent.children.push(node);
+    else topLevel.push(node);
+  } else {
+    topLevel.push(node);
+  }
+}
+
+const sortTree = (items: NavNode[], source: NavItem[]) => {
+  const orderById = new Map(source.map((i) => [i.id, i.order ?? 0] as const));
+  items.sort((a, b) => {
+    const ao = orderById.get(a.id) ?? 0;
+    const bo = orderById.get(b.id) ?? 0;
+    if (ao !== bo) return ao - bo;
+    return a.label.localeCompare(b.label, "it");
+  });
+  for (const item of items) sortTree(item.children, source);
+};
+
+sortTree(topLevel, rawItems);
+---
+
+<header
+  class="navbar bg-white/80 backdrop-blur-md sticky top-0 z-50 px-4 lg:px-20 py-4"
+>
+  <div class="navbar-start">
+    <div class="dropdown">
+      <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h8m-8 6h16"></path>
+        </svg>
+      </div>
+      <ul
+        tabindex="-1"
+        class="menu menu-sm dropdown-content bg-base-100 z-1 mt-3 w-52 p-2 shadow-sm rounded-lg border border-base-200"
+      >
+        <NavMenu items={topLevel} isHome={isHome} />
+      </ul>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="w-10 h-10 flex items-center justify-center">
+        <img alt="Logo Salti In Bocca Teatro" src="/logo-sib-new.png" />
+      </div>
+      <a class="hidden md:block text-sm font-semibold tracking-tight" href="/">
+        Salti In Bocca Teatro
+      </a>
+    </div>
+  </div>
+
+  <div class="navbar-center hidden lg:flex">
+    <ul class="menu menu-horizontal px-1 text-[13px] font-medium gap-2">
+      <NavMenu items={topLevel} isHome={isHome} />
+    </ul>
+  </div>
+
+  <div class="navbar-end"></div>
+</header>
