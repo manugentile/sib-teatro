@@ -105,3 +105,16 @@ const { calendarId } = Astro.props;
     font-family: sans-serif;
   }
 </style>
+
+<style is:global>
+  /* Permette al testo dell'evento di andare a capo */
+  .fc-daygrid-event {
+    white-space: normal !important;
+    align-items: flex-start !important;
+  }
+
+  .fc-event-title {
+    white-space: normal !important;
+    word-break: break-word; /* Spezza le parole molto lunghe se non c'è spazio */
+  }
+</style>
