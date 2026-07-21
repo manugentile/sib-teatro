@@ -125,8 +125,17 @@ const { calendarId } = Astro.props;
     align-items: flex-start !important;
   }
 
-  .fc-event-title {
+  .fc-daygrid-event .fc-event-title {
+    color: #dc2626 !important;
+    font-weight: bold !important;
     white-space: normal !important;
     word-break: break-word; /* Spezza le parole molto lunghe se non c'è spazio */
+  }
+
+  .fc-daygrid-event .fc-event-time {
+    color: #9ca3af !important;
+    font-size: 0.75rem !important;
+    font-weight: 500 !important;
+    margin-right: 4px;
   }
 </style>
