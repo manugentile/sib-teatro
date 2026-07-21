@@ -51,7 +51,7 @@ const { calendarId } = Astro.props;
 
           const modal = document.getElementById('event-modal');
           document.getElementById('modal-title').innerText = info.event.title;
-          document.getElementById('modal-time').innerText = info.event.start?.toLocaleString();
+          document.getElementById('modal-time').innerText = info.event.start?.toLocaleString('it-IT', {hour: '2-digit',  minute: '2-digit'}) || ' - ' || info.event.end?.toLocaleString('it-IT', {hour: '2-digit',  minute: '2-digit'});
           document.getElementById('modal-location').innerText = info.event.extendedProps.location ? `📍 ${info.event.extendedProps.location}` : '';
           document.getElementById('modal-description').innerText = info.event.extendedProps.description || '';
           
