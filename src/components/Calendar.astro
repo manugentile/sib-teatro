@@ -29,6 +29,7 @@ const { calendarId } = Astro.props;
     const calendarEl = document.getElementById('calendar-teatro');
     const apiKey = import.meta.env.PUBLIC_GOOGLE_CALENDAR_API_KEY;
     const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
+
     if (calendarEl) {
       console.log("Tentativo di renderizzazione...");
       const calendar = new Calendar(calendarEl, {
@@ -41,10 +42,9 @@ const { calendarId } = Astro.props;
           meridiem: false, // Disabilita AM/PM
           hour12: false    // Usa il formato h24
         },
-        googleCalendarApiKey: apiKey, // Astro la inietterà qui
-        // events: '',
+        googleCalendarApiKey: apiKey,
         events: {
-          googleCalendarId: calendarId // Usa l'oggetto, non solo la stringa
+          googleCalendarId: calendarId
         },
         locale: itLocale,
         headerToolbar: {
@@ -75,20 +75,25 @@ const { calendarId } = Astro.props;
             linkBtn.style.display = 'none';
           }
 
-          modal.showModal(); // Apri il dialogo nativo HTML5
+          modal.showModal();
         },
         eventContent: function(arg) {
           const title = arg.event.title;
           const location = arg.event.extendedProps.location;
 
-          // Crea elementi HTML personalizzati da inserire nella casella
           let customEl = document.createElement('div');
           customEl.className = 'fc-custom-event';
           
           customEl.innerHTML = `
-            <strong>${arg.timeText}</strong>
-            <div style="font-weight: bold;">${title}</div>
-            ${location ? `<small style="font-size: 0.8em; opacity: 0.8;">📍 ${location}</small>` : ''}
+            <div style="color: #9ca3af; font-size: 0.75rem; font-weight: 500;">
+              ${arg.timeText}
+            </div>
+            
+            <div style="color: #dc2626; font-weight: bold; margin-top: 1px;">
+              ${title}
+            </div>
+            
+            ${location ? `<div style="font-size: 0.75rem; opacity: 0.8; margin-top: 1px;">📍 ${location}</div>` : ''}
           `;
 
           return { domNodes: [customEl] };
@@ -123,19 +128,5 @@ const { calendarId } = Astro.props;
   .fc-daygrid-event {
     white-space: normal !important;
     align-items: flex-start !important;
-  }
-
-  .fc-daygrid-event .fc-event-title {
-    color: #dc2626 !important;
-    font-weight: bold !important;
-    white-space: normal !important;
-    word-break: break-word; /* Spezza le parole molto lunghe se non c'è spazio */
-  }
-
-  .fc-daygrid-event .fc-event-time {
-    color: #9ca3af !important;
-    font-size: 0.75rem !important;
-    font-weight: 500 !important;
-    margin-right: 4px;
   }
 </style>
