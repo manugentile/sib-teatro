@@ -39,7 +39,7 @@
     {
       "id": "instagram",
       "label": "Instagram",
-      "href": "https://instagram.com/",
+      "href": "https://www.instagram.com/salti_in_bocca_teatro/",
       "parentId": "social",
       "order": 10,
       "external": true
@@ -50,6 +50,14 @@
       "href": "https://www.facebook.com/saltiinboccaaps/",
       "parentId": "social",
       "order": 20,
+      "external": true
+    },
+    {
+      "id": "whatsapp",
+      "label": "Whatsapp",
+      "href": "https://wa.me/393791110628",
+      "parentId": "social",
+      "order": 30,
       "external": true
     },
     {
