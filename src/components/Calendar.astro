@@ -34,6 +34,13 @@ const { calendarId } = Astro.props;
       const calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, googleCalendarPlugin],
         initialView: 'dayGridMonth',
+        displayEventEnd: true,
+        eventTimeFormat: {
+          hour: '2-digit',
+          minute: '2-digit',
+          meridiem: false, // Disabilita AM/PM
+          hour12: false    // Usa il formato h24
+        },
         googleCalendarApiKey: apiKey, // Astro la inietterà qui
         // events: '',
         events: {
