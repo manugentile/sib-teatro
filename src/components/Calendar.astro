@@ -5,6 +5,19 @@ const { calendarId } = Astro.props;
 
 <div id="calendar-teatro"></div>
 
+<!-- Dialog / Modale nascosto per i dettagli dell'evento -->
+<dialog id="event-modal" class="p-6 rounded-lg shadow-xl backdrop:bg-black/50">
+  <h3 id="modal-title" class="text-xl font-bold mb-2"></h3>
+  <p id="modal-time" class="text-sm text-gray-600 mb-2"></p>
+  <p id="modal-location" class="text-sm text-gray-500 mb-4"></p>
+  <div id="modal-description" class="text-base mb-6"></div>
+  
+  <div class="flex gap-2 justify-end">
+    <a id="modal-link" href="#" target="_blank" class="px-4 py-2 bg-blue-600 text-white rounded">Vedi su Google</a>
+    <button id="modal-close" class="px-4 py-2 bg-gray-200 rounded">Chiudi</button>
+  </div>
+</dialog>
+
 <script>
   import { Calendar } from '@fullcalendar/core';
   import dayGridPlugin from '@fullcalendar/daygrid';
@@ -33,13 +46,49 @@ const { calendarId } = Astro.props;
           right: 'dayGridMonth,dayGridWeek'
         },
         eventClick: function(info) {
+          // Evita che il browser segua un link predefinito se l'evento ne ha uno
           info.jsEvent.preventDefault();
-          // Logica per mostrare i dettagli (es. una modale)
+
+          const modal = document.getElementById('event-modal');
+          document.getElementById('modal-title').innerText = info.event.title;
+          document.getElementById('modal-time').innerText = info.event.start?.toLocaleString();
+          document.getElementById('modal-location').innerText = info.event.extendedProps.location ? `📍 ${info.event.extendedProps.location}` : '';
+          document.getElementById('modal-description').innerText = info.event.extendedProps.description || '';
+          
+          const linkBtn = document.getElementById('modal-link');
+          if (info.event.url) {
+            linkBtn.href = info.event.url;
+            linkBtn.style.display = 'inline-block';
+          } else {
+            linkBtn.style.display = 'none';
+          }
+
+          modal.showModal(); // Apri il dialogo nativo HTML5
+        },
+        eventContent: function(arg) {
+          const title = arg.event.title;
+          const location = arg.event.extendedProps.location;
+
+          // Crea elementi HTML personalizzati da inserire nella casella
+          let customEl = document.createElement('div');
+          customEl.className = 'fc-custom-event';
+          
+          customEl.innerHTML = `
+            <strong>${arg.timeText}</strong>
+            <div style="font-weight: bold;">${title}</div>
+            ${location ? `<small style="font-size: 0.8em; opacity: 0.8;">📍 ${location}</small>` : ''}
+          `;
+
+          return { domNodes: [customEl] };
         }
       });
       calendar.render();
     }
   };
+
+  document.getElementById('modal-close')?.addEventListener('click', () => {
+    document.getElementById('event-modal').close();
+  });
 
   // Esegue la funzione al caricamento iniziale
   setupCalendar();
