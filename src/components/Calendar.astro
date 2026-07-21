@@ -15,6 +15,7 @@ const { calendarId } = Astro.props;
     console.log("Tentativo di renderizzazione...");
     const calendarEl = document.getElementById('calendar-teatro');
     const apiKey = import.meta.env.PUBLIC_GOOGLE_CALENDAR_API_KEY;
+    const calendarId = import.meta.env.PUBLIC_GOOGLE_CALENDAR_ID;
     if (calendarEl) {
       console.log("Tentativo di renderizzazione...");
       const calendar = new Calendar(calendarEl, {
@@ -23,7 +24,7 @@ const { calendarId } = Astro.props;
         googleCalendarApiKey: apiKey, // Astro la inietterà qui
         // events: '',
         events: {
-          googleCalendarId: '6abd7da98ca031ff6c15b83c0038179f08a15ef927e2a69ede023dc213394421@group.calendar.google.com' // Usa l'oggetto, non solo la stringa
+          googleCalendarId: calendarId // Usa l'oggetto, non solo la stringa
         },
         locale: itLocale,
         headerToolbar: {
