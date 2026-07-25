@@ -23,18 +23,27 @@ const formatDate = (date: Date) => {
     <p class="text-slate-500 mb-16 uppercase tracking-widest text-sm font-bold">
       Le date della stagione teatrale
     </p>
-    <h2 class="text-2xl font-serif mb-8 border-b border-slate-100 pb-4">Prossimi Eventi</h2>
-    <ul>
-      {upcomingEvents.map((event) => {
-        const eventDate = new Date(event.start.dateTime || event.start.date);
-        return (
-          <li>
-            <strong>{formatDate(eventDate)}</strong>: {event.summary}
-          </li>
-        );
-      })}
-    </ul>
-    <FullCalendar />
+    <FullCalendar /> 
+  </section>
+  <section class="py-24 px-6 max-w-4xl mx-auto opacity-60">
+    <h2 class="text-xl font-serif mb-8 text-slate-400">Prossimi Eventi</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {
+        upcomingEvents.map((event) => (
+          <div class="flex items-center gap-4 border-l-2 border-slate-200 pl-4 py-2">
+            <div>
+              <p class="text-[10px] font-bold uppercase text-slate-400">
+                {formatDate(new Date(event.date))}
+              </p>
+              <h4 class="font-serif">{event.title}</h4>
+              <p class="text-xs text-slate-500">{event.venue}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+  <section class="py-24 px-6 max-w-4xl mx-auto opacity-60">
     <h2 class="text-xl font-serif mb-8 text-slate-400">Archivio Eventi</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       {
@@ -50,6 +59,6 @@ const formatDate = (date: Date) => {
           </div>
         ))
       }
-    </div>      
+    </div>
   </section>
 </SiteLayout>
