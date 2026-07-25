@@ -25,22 +25,26 @@ const formatDate = (date: Date) => {
     </p>
     <h2 class="text-2xl font-serif mb-8 border-b border-slate-100 pb-4">Prossimi Eventi</h2>
     <ul>
-      {upcomingEvents.map((event) => (
-        <li>
-          <strong>{new Date(event.start.dateTime || event.start.date).toLocaleDateString('it-IT')}</strong>: 
-          {event.summary}
-        </li>
-      ))}
+      {upcomingEvents.map((event) => {
+        const eventDate = new Date(event.start.dateTime || event.start.date);
+        return (
+          <li>
+            <strong>{formatDate(eventDate)}</strong>: {event.summary}
+          </li>
+        );
+      })}
     </ul>
     <FullCalendar />
     <h2 class="text-xl font-serif mb-8 text-slate-400">Archivio Eventi</h2>
     <ul>
-      {pastEvents.map((event) => (
-        <li>
-          <strong>{new Date(event.start.dateTime || event.start.date).toLocaleDateString('it-IT')}</strong>: 
-          {event.summary}
-        </li>
-      ))}
+      {pastEvents.map((event) => {
+        const eventDate = new Date(event.start.dateTime || event.start.date);
+        return (
+          <li>
+            <strong>{formatDate(eventDate)}</strong>: {event.summary}
+          </li>
+        );
+      })}
     </ul>
   </section>
 </SiteLayout>
