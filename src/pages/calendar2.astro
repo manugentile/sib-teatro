@@ -36,15 +36,20 @@ const formatDate = (date: Date) => {
     </ul>
     <FullCalendar />
     <h2 class="text-xl font-serif mb-8 text-slate-400">Archivio Eventi</h2>
-    <ul>
-      {pastEvents.map((event) => {
-        const eventDate = new Date(event.start.dateTime || event.start.date);
-        return (
-          <li>
-            <strong>{formatDate(eventDate)}</strong>: {event.summary}
-          </li>
-        );
-      })}
-    </ul>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {
+        pastEvents.map((event) => (
+          <div class="flex items-center gap-4 border-l-2 border-slate-200 pl-4 py-2">
+            <div>
+              <p class="text-[10px] font-bold uppercase text-slate-400">
+                {formatDate(new Date(event.date))}
+              </p>
+              <h4 class="font-serif">{event.title}</h4>
+              <p class="text-xs text-slate-500">{event.venue}</p>
+            </div>
+          </div>
+        ))
+      }
+    </div>      
   </section>
 </SiteLayout>
