@@ -1,5 +1,6 @@
 ---
 import EventListItem from "./EventListItem.astro";
+import { getUpcomingEvents} from '../../lib/calendar';
 
 export interface Event {
   month: string;
@@ -14,6 +15,8 @@ export interface Props {
 }
 
 const { events } = Astro.props;
+const upcomingEvents = await getUpcomingEvents(5);
+
 ---
 
 <section id="contatti" class="py-20 bg-slate-50 border-t border-slate-100 px-6">
@@ -59,7 +62,7 @@ const { events } = Astro.props;
 
       <div class="space-y-6">
         {
-          events.map((e) => (
+          upcomingEvents.map((e) => (
             <EventListItem
               month={e.month}
               day={e.day}
