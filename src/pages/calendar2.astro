@@ -1,0 +1,46 @@
+---
+import { getCollection } from "astro:content";
+import FullCalendar from "../components/Calendar.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../config";
+import SiteLayout from "../layouts/SiteLayout.astro";
+import { getUpcomingEvents, getPastEvents } from '../lib/calendar';
+
+const upcomingEvents = await getUpcomingEvents(5);
+const pastEvents = await getPastEvents(5);
+
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat("it-IT", {
+    day: "2-digit",
+    month: "long",
+    year: "numeric",
+  }).format(date);
+};
+---
+
+<SiteLayout title={SITE_TITLE} description={SITE_DESCRIPTION}>
+  <section class="py-24 px-6 max-w-4xl mx-auto mb-24">
+    <h1 class="text-6xl font-serif italic mb-4">Calendario</h1>
+    <p class="text-slate-500 mb-16 uppercase tracking-widest text-sm font-bold">
+      Le date della stagione teatrale
+    </p>
+    <h2 class="text-2xl font-serif mb-8 border-b border-slate-100 pb-4">Prossimi Eventi</h2>
+    <ul>
+      {upcomingEvents.map((event) => (
+        <li>
+          <strong>{new Date(event.start.dateTime || event.start.date).toLocaleDateString('it-IT')}</strong>: 
+          {event.summary}
+        </li>
+      ))}
+    </ul>
+    <FullCalendar />
+    <h2 class="text-xl font-serif mb-8 text-slate-400">Archivio Eventi</h2>
+    <ul>
+      {pastEvents.map((event) => (
+        <li>
+          <strong>{new Date(event.start.dateTime || event.start.date).toLocaleDateString('it-IT')}</strong>: 
+          {event.summary}
+        </li>
+      ))}
+    </ul>
+  </section>
+</SiteLayout>

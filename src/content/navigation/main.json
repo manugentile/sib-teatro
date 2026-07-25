@@ -19,22 +19,34 @@
       "order": 30
     },
     {
-      "id": "contatti",
-      "label": "Contatti",
-      "href": "#contatti",
+      "id": "calendario",
+      "label": "Calendario",
+      "href": "/calendar",
       "order": 40
     },
     {
-      "id": "blog",
-      "label": "Blog",
-      "href": "/posts",
+      "id": "contatti",
+      "label": "Contatti",
+      "href": "#contatti",
       "order": 50
     },
     {
       "id": "social",
       "label": "Social",
       "href": "#",
+      "order": 60
+    },
+    {
+      "id": "blog",
+      "label": "Blog",
+      "href": "/posts",
       "order": 70
+    },
+    {
+      "id": "calendario2",
+      "label": "Calendario2",
+      "href": "/calendar2",
+      "order": 80
     },
     {
       "id": "instagram",
