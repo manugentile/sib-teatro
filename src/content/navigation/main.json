@@ -95,6 +95,48 @@
       "label": "Oscar Tuzza",
       "href": "/posts/oscar-tuzza",
       "parentId": "compagnia"
+    },
+    {
+      "id": "al-pozzo-dello-sparviero",
+      "label": "Al Pozzo dello Sparviero",
+      "href": "/posts/al-pozzo-dello-sparviero",
+      "parentId": "spettacoli",
+      "order": 10
+    },
+    {
+      "id": "luomo-del-destino",
+      "label": "L'Uomo del Destino",
+      "href": "/posts/luomo-del-destino",
+      "parentId": "spettacoli",
+      "order": 20
+    },
+    {
+      "id": "la-magia-delle-maschere",
+      "label": "La magia delle maschere",
+      "href": "/posts/la-magia-delle-maschere",
+      "parentId": "spettacoli",
+      "order": 30
+    },
+    {
+      "id": "la-scongiura-dei-pazzi",
+      "label": "La Scongiura dei Pazzi",
+      "href": "/posts/la-scongiura-dei-pazzi",
+      "parentId": "spettacoli",
+      "order": 40
+    },
+    {
+      "id": "non-siamo-solo-petali",
+      "label": "Non siamo solo petali",
+      "href": "/posts/non-siamo-solo-petali",
+      "parentId": "spettacoli",
+      "order": 50
+    },
+    {
+      "id": "tlaka",
+      "label": "TLAKA",
+      "href": "/posts/tlaka",
+      "parentId": "spettacoli",
+      "order": 60
     }
   ]
 }
