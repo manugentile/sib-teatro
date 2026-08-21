@@ -132,11 +132,18 @@
       "order": 50
     },
     {
+      "id": "la-valigia-dell-errore",
+      "label": "La valigia dell'errore",
+      "href": "/posts/la-valigia-dell-errore",
+      "parentId": "spettacoli",
+      "order": 60
+    },
+    {
       "id": "tlaka",
       "label": "TLAKA",
       "href": "/posts/tlaka",
       "parentId": "spettacoli",
-      "order": 60
+      "order": 70
     }
   ]
 }
